@@ -13,8 +13,7 @@ public class DiscordBot {
         //Login Discord Bot
         System.out.println("Starting Discord Bot...");
 
-        final String token = "";
-        //System.getenv("DISCORD_BOT_TOKEN");
+        final String token = System.getenv("DISCORD_BOT_TOKEN");
 
         if (token == null || token.isEmpty()) {
             System.err.println("Error: DISCORD_BOT_TOKEN environment variable is not set.");
