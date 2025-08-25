@@ -13,7 +13,7 @@ public class DiscordBot {
         //Login Discord Bot
         System.out.println("Starting Discord Bot...");
 
-        final String token = "MTQwOTU1Nzg4NjA3NzUwNTczOA.GGtD88.rl0Hu00fLlGzwc6zMF8KLk7AX7sXCqVZKaQ0JQ";
+        final String token = "";
         //System.getenv("DISCORD_BOT_TOKEN");
 
         if (token == null || token.isEmpty()) {
