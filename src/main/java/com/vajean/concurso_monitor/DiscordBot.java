@@ -105,6 +105,9 @@ public class DiscordBot {
         }
      });
         client.onDisconnect().block();
-    
+    }
+
+    static public void main(){
+        StartBot();
     }
 }
