@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  scraper:
+    build: .
+    container_name: concurso_monitor
+    command: java -jar app.jar com.vajean.concurso_monitor.ScrapeService
+  
+  discord_bot:
+    build: .
+    container_name: discord_bot
+    environment:
+      - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}
+    command: java -jar app.jar com.vajean.concurso_monitor.DiscordBot
+    depends_on:
+      - scraper
+    
