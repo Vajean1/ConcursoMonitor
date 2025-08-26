@@ -11,7 +11,7 @@ import java.io.File;
 
 @Service
 public class DiscordBot {
-    public static void main(String[] args) {
+    public static void StartBot() {
 
         //Login Discord Bot
         System.out.println("Starting Discord Bot...");
@@ -52,8 +52,8 @@ public class DiscordBot {
                 Concursos[] concursos = mapper.readValue(new File("concursos.json"), Concursos[].class);
                 StringBuilder response = new StringBuilder("Concursos Abertos:\n");
                 for (Concursos concurso : concursos) {
-                    if (concurso.getStatus().equalsIgnoreCase("aberto")) {
-                        response.append(String.format("- %s (%s): Vagas: %s\n", concurso.getName(), concurso.getLink(), concurso.getQnt()));
+                    if (concurso.getConcurso_status().equalsIgnoreCase("aberto")) {
+                        response.append(String.format("- %s (%s): Vagas: %s\n", concurso.getConcurso_name(), concurso.getConcurso_link(), concurso.getConcurso_qnt()));
                     }
                 }
                     event.getMessage().getChannel()
@@ -71,8 +71,8 @@ public class DiscordBot {
                 Concursos[] concursos = mapper.readValue(new File("concursos.json"), Concursos[].class);
                 StringBuilder response = new StringBuilder("Concursos Previstos:\n");
                 for (Concursos concurso : concursos) {
-                    if (concurso.getStatus().equalsIgnoreCase("previsto")) {
-                        response.append(String.format("- %s (%s): Vagas: %s\n", concurso.getName(), concurso.getLink(), concurso.getQnt()));
+                    if (concurso.getConcurso_status().equalsIgnoreCase("previsto")) {
+                        response.append(String.format("- %s (%s): Vagas: %s\n", concurso.getConcurso_name(), concurso.getConcurso_link(), concurso.getConcurso_qnt()));
                     }
                 }
                     event.getMessage().getChannel()
@@ -91,7 +91,7 @@ public class DiscordBot {
                 Concursos[] concursos = mapper.readValue(new File("concursos.json"), Concursos[].class);
                 StringBuilder response = new StringBuilder("Todos os Concursos:\n");
                 for (Concursos concurso : concursos) {
-                    response.append(String.format("- %s (%s): Vagas: %s - Status: %s\n", concurso.getName(), concurso.getLink(), concurso.getQnt(), concurso.getStatus()));
+                    response.append(String.format("- %s (%s): Vagas: %s - Status: %s\n", concurso.getConcurso_name(), concurso.getConcurso_link(), concurso.getConcurso_qnt(), concurso.getConcurso_status()));
                 }
                     event.getMessage().getChannel()
                     .flatMap(channel -> channel.createMessage(response.toString()))
@@ -104,7 +104,6 @@ public class DiscordBot {
             }
         }
      });
-
         client.onDisconnect().block();
     
     }

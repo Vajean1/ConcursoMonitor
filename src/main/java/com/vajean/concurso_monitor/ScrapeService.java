@@ -62,13 +62,8 @@ public class ScrapeService {
         ObjectMapper mapper = new ObjectMapper();
         try {
             File ConcursosJSON = new File("concursos.json");
-            if (ConcursosJSON.exists()) {
-                mapper.writeValue(ConcursosJSON, concursosList);
-                System.out.println("File updated successfully.");
-            } else {
-                mapper.writeValue(ConcursosJSON, concursosList);
-                System.out.println("File created successfully.");
-            }
+            mapper.writeValue(ConcursosJSON, concursosList);
+            System.out.println("File created successfully.");
         } catch (IOException e) {
             e.printStackTrace();
         }
