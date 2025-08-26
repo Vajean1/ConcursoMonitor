@@ -1,8 +1,10 @@
 package com.vajean.concurso_monitor;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class Concursos {
     private String concurso_name;
     private String concurso_link;
@@ -14,5 +16,21 @@ public class Concursos {
         this.concurso_link = concurso_link;
         this.concurso_status = concurso_status;
         this.concurso_qnt = concurso_qnt;
+    }
+
+    public String getName() {
+        return concurso_name;
+    }
+
+    public String getLink() {
+        return concurso_link;
+    }
+
+    public String getStatus() {
+        return concurso_status;
+    }
+
+    public String getQnt() {
+        return concurso_qnt;
     }
 }

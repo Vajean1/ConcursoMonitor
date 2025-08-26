@@ -4,9 +4,12 @@ import discord4j.core.DiscordClientBuilder;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.lifecycle.ReadyEvent;
 import discord4j.core.object.entity.User;
-import reactor.core.publisher.Mono;
 import discord4j.core.event.domain.message.MessageCreateEvent;
+import com.austinv11.servicer.Service;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
 
+@Service
 public class DiscordBot {
     public static void main(String[] args) {
 
@@ -36,16 +39,73 @@ public class DiscordBot {
                 System.out.println(String.format("Logged in as %s#%s", bot.getUsername(), bot.getDiscriminator()));
             }
         );
-
-        client.onDisconnect().block();
+        
         System.out.println("Discord Bot started.");
 
-
         client.getEventDispatcher().on(MessageCreateEvent.class)
-            .flatMap(event -> Mono.just(event.getMessage().getContent())
-            .filter(content -> content.startsWith("!hello"))
-            .flatMap(content -> event.getMessage().getChannel())
-            .flatMap(channel -> channel.createMessage("Hello World!"))
-        ).subscribe();
+        .subscribe(event -> {
+        final String content = event.getMessage().getContent();
+        if (event.getMessage().getAuthor().map(User::isBot).orElse(true)) return;
+        if (content.equals("!abertos")) {
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                Concursos[] concursos = mapper.readValue(new File("concursos.json"), Concursos[].class);
+                StringBuilder response = new StringBuilder("Concursos Abertos:\n");
+                for (Concursos concurso : concursos) {
+                    if (concurso.getStatus().equalsIgnoreCase("aberto")) {
+                        response.append(String.format("- %s (%s): Vagas: %s\n", concurso.getName(), concurso.getLink(), concurso.getQnt()));
+                    }
+                }
+                    event.getMessage().getChannel()
+                    .flatMap(channel -> channel.createMessage(response.toString()))
+                    .subscribe();
+            } catch (Exception e) {
+                e.printStackTrace();
+                event.getMessage().getChannel()
+                    .flatMap(channel -> channel.createMessage("error to read concursos.json"))
+                    .subscribe();
+            }
+        } else if (content.equals("!previstos")) {
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                Concursos[] concursos = mapper.readValue(new File("concursos.json"), Concursos[].class);
+                StringBuilder response = new StringBuilder("Concursos Previstos:\n");
+                for (Concursos concurso : concursos) {
+                    if (concurso.getStatus().equalsIgnoreCase("previsto")) {
+                        response.append(String.format("- %s (%s): Vagas: %s\n", concurso.getName(), concurso.getLink(), concurso.getQnt()));
+                    }
+                }
+                    event.getMessage().getChannel()
+                    .flatMap(channel -> channel.createMessage(response.toString()))
+                    .subscribe();
+            } catch (Exception e) {
+                e.printStackTrace();
+                event.getMessage().getChannel()
+                    .flatMap(channel -> channel.createMessage("error to read concursos.json"))
+                    .subscribe();
+            }
+            
+        } else if (content.equals("!concursos")){
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                Concursos[] concursos = mapper.readValue(new File("concursos.json"), Concursos[].class);
+                StringBuilder response = new StringBuilder("Todos os Concursos:\n");
+                for (Concursos concurso : concursos) {
+                    response.append(String.format("- %s (%s): Vagas: %s - Status: %s\n", concurso.getName(), concurso.getLink(), concurso.getQnt(), concurso.getStatus()));
+                }
+                    event.getMessage().getChannel()
+                    .flatMap(channel -> channel.createMessage(response.toString()))
+                    .subscribe();
+            } catch (Exception e) {
+                e.printStackTrace();
+                event.getMessage().getChannel()
+                    .flatMap(channel -> channel.createMessage("error to read concursos.json"))
+                    .subscribe();
+            }
+        }
+     });
+
+        client.onDisconnect().block();
+    
     }
 }
