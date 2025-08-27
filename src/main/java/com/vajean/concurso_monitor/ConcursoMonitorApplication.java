@@ -5,10 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.vajean.concurso_monitor.ScrapeService;
 import com.vajean.concurso_monitor.DiscordBot;
 
-
 @SpringBootApplication
 public class ConcursoMonitorApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(ConcursoMonitorApplication.class, args);
 		ScrapeService scraper = new ScrapeService();

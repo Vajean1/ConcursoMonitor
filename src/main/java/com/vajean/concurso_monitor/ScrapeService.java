@@ -67,8 +67,4 @@ public class ScrapeService {
             e.printStackTrace();
         }
     }
-
-    static public void main(){
-        scrapeConcursos();
-    }
 }
