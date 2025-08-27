@@ -19,7 +19,6 @@ public class ScrapeService {
         System.out.println("Scraping started...");
         
         try {
-            //Get the HTML document from the website
             Document doc = Jsoup.connect("https://concursosnobrasil.com/concursos/pe/").userAgent("Mozila").get();
 
             Elements concursos_body = doc.select("#conteudo > table:nth-child(3)");

@@ -13,7 +13,6 @@ import java.io.File;
 public class DiscordBot {
     public static void StartBot() {
 
-        //Login Discord Bot
         System.out.println("Starting Discord Bot...");
 
         final String token = System.getenv("DISCORD_BOT_TOKEN");
